@@ -5,6 +5,8 @@
 #include "graphics.h"
 #include "application.h"
 
+#include <iostream>
+
 Graphics *Graphics::_instance = 0;
 
 Graphics::Graphics()
@@ -21,11 +23,15 @@ Graphics::Graphics()
                 &window,
                 &renderer ) < 0 )
     {
+        std::cerr << "SDL_CreateWindowAndRenderer failed: ";
+        std::cerr << SDL_GetError() << std::endl;
         Application::Quit( 2 );
     }
 
     if( LoadSpriteSheet( "sprite_sheet.bmp" ) < 0 )
     {
+        std::cerr << "LoadSpriteSheet failed: ";
+        std::cerr << SDL_GetError() << std::endl;
         Application::Quit( 2 );
     }
 
