@@ -10,7 +10,7 @@ SRC_PATH = .
 # Space-separated pkg-config libraries used by this project
 LIBS =
 # General compiler flags
-COMPILE_FLAGS = -std=c++11 -Wall -Wextra -g -O2 -D_THREAD_SAFE -I/usr/local/include/SDL2 -I/usr/X11/include -I/usr/X11/include -DHAVE_OPENGL -g
+COMPILE_FLAGS = -std=c++11 -Wall -Wextra -g -O2 -D_THREAD_SAFE -I/usr/local/include/SDL2 -I/usr/include/SDL2 -I/usr/X11/include -I/usr/X11/include -DHAVE_OPENGL -g
 # Additional release-specific flags
 RCOMPILE_FLAGS = -D NDEBUG
 # Additional debug-specific flags
