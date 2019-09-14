@@ -2,6 +2,10 @@
 #include <stdio.h>
 #include <time.h>
 
+#ifndef SDL_MAIN_HANDLED
+#define SDL_MAIN_HANDLED
+#endif
+
 #include "SDL.h"
 
 #include "sprite_defines.h"
