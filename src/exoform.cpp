@@ -75,7 +75,7 @@ int main( int /* argc */, char ** /* argv[] */ )
             LINE_STYLE_SINGLE,
             LINE_STYLE_DOUBLE );
 
-    test_box_1.SetRenderLayer( 0 );
+    test_box_2.SetRenderLayer( 0 );
 
     Graphics::Instance()->AddRenderable( &test_box_2 );
 
