@@ -1,6 +1,11 @@
 *.d
+*.dSYM/*
 *.o
 /src/bin/release/exoform
+exoform
+exoform.exe
+bin/
+*.dll
 
 *.swp
 *.swp.*
