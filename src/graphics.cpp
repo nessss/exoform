@@ -6,6 +6,7 @@
 #include "application.h"
 
 #include <iostream>
+#include <string>
 
 Graphics *Graphics::_instance = 0;
 
@@ -15,7 +16,10 @@ Graphics::Graphics()
 
     /* Enable standard application logging */
     SDL_LogSetPriority( SDL_LOG_CATEGORY_APPLICATION, SDL_LOG_PRIORITY_INFO );
+    SDL_LogSetPriority( SDL_LOG_CATEGORY_ERROR,       SDL_LOG_PRIORITY_INFO );
 
+    // Create window and renderer
+    SDL_Log( "Creating window and renderer" );
     if( SDL_CreateWindowAndRenderer(
                 WINDOW_CHAR_WIDTH * SPRITE_WIDTH,
                 WINDOW_CHAR_HEIGHT * SPRITE_HEIGHT,
@@ -23,15 +27,29 @@ Graphics::Graphics()
                 &window,
                 &renderer ) < 0 )
     {
-        std::cerr << "SDL_CreateWindowAndRenderer failed: ";
-        std::cerr << SDL_GetError() << std::endl;
+        std::string error_message = "SDL_CreateWindowAndRenderer failed: ";
+        error_message += SDL_GetError();
+        SDL_ShowSimpleMessageBox(
+                SDL_MESSAGEBOX_ERROR,
+                "Fatal Error",
+                error_message.c_str(),
+                NULL );
+
         Application::Quit( 2 );
     }
 
+    // Load sprite sheet
+    SDL_Log( "Loading sprite sheet" );
     if( LoadSpriteSheet( "sprite_sheet.bmp" ) < 0 )
     {
-        std::cerr << "LoadSpriteSheet failed: ";
-        std::cerr << SDL_GetError() << std::endl;
+        std::string error_message = "LoadSpriteSheet failed: ";
+        error_message += SDL_GetError();
+        SDL_ShowSimpleMessageBox(
+                SDL_MESSAGEBOX_ERROR,
+                "Fatal Error",
+                error_message.c_str(),
+                NULL );
+
         Application::Quit( 2 );
     }
 
