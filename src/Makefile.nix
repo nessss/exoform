@@ -1,8 +1,8 @@
 #### PROJECT SETTINGS ####
 # The name of the executable to be created
-BIN_NAME := exoform.exe
+BIN_NAME := exoform
 # Compiler used
-CXX = x86_64-w64-mingw32-g++
+CXX ?= g++
 # Extension of source files used in the project
 SRC_EXT = cpp
 # Path to the source directory, relative to the makefile
@@ -10,7 +10,7 @@ SRC_PATH = .
 # Space-separated pkg-config libraries used by this project
 LIBS =
 # General compiler flags
-COMPILE_FLAGS = -std=c++11 -Wall -Wextra -g -O2 -D_THREAD_SAFE -I/mnt/c/mingw_dev_lib/include/SDL2
+COMPILE_FLAGS = -std=c++11 -Wall -Wextra -g -O2 -D_THREAD_SAFE -I/usr/local/include/SDL2 -I/usr/include/SDL2 -I/usr/X11/include -I/usr/X11/include -DHAVE_OPENGL -g
 # Additional release-specific flags
 RCOMPILE_FLAGS = -D NDEBUG
 # Additional debug-specific flags
@@ -18,7 +18,7 @@ DCOMPILE_FLAGS = -D DEBUG
 # Add additional include paths
 INCLUDES = -I $(SRC_PATH)
 # General linker settings
-LINK_FLAGS = -L/mnt/c/mingw_dev_lib/lib -lmingw32 -lSDL2main -lSDL2 -static-libgcc -static-libstdc++
+LINK_FLAGS = -lSDL2_test -L/usr/local/lib -lSDL2
 # Additional release-specific linker settings
 RLINK_FLAGS =
 # Additional debug-specific linker settings
@@ -73,11 +73,11 @@ debug: export CXXFLAGS := $(CXXFLAGS) $(COMPILE_FLAGS) $(DCOMPILE_FLAGS)
 debug: export LDFLAGS := $(LDFLAGS) $(LINK_FLAGS) $(DLINK_FLAGS)
 
 # Build and output paths
-release: export BUILD_PATH := build/windows/release
-release: export BIN_PATH := bin/windows/release
-debug: export BUILD_PATH := build/windows/debug
-debug: export BIN_PATH := bin/windows/debug
-install: export BIN_PATH := bin/windows/release
+release: export BUILD_PATH := build/unix/release
+release: export BIN_PATH := bin/unix/release
+debug: export BUILD_PATH := build/unix/debug
+debug: export BIN_PATH := bin/unix/debug
+install: export BIN_PATH := bin/unix/release
 
 # Find all source files in the source directory, sorted by most
 # recently modified
@@ -151,7 +151,7 @@ else
 	@echo "Beginning release build"
 endif
 	@$(START_TIME)
-	@$(MAKE) -f Makefile.win all --no-print-directory
+	@$(MAKE) -f Makefile.nix all --no-print-directory
 	@echo -n "Total build time: "
 	@$(END_TIME)
 
@@ -164,7 +164,7 @@ else
 	@echo "Beginning debug build"
 endif
 	@$(START_TIME)
-	@$(MAKE) -f Makefile.win all --no-print-directory
+	@$(MAKE) -f Makefile.nix all --no-print-directory
 	@echo -n "Total build time: "
 	@$(END_TIME)
 
@@ -197,7 +197,6 @@ all: $(BIN_PATH)/$(BIN_NAME)
 $(BIN_PATH)/$(BIN_NAME): $(OBJECTS)
 	@echo "Linking: $@"
 	@$(START_TIME)
-	@echo "$(CMD_PREFIX)$(CXX) $(OBJECTS) $(LDFLAGS) -o $@"
 	$(CMD_PREFIX)$(CXX) $(OBJECTS) $(LDFLAGS) -o $@
 	@echo -en "\t Link time: "
 	@$(END_TIME)
@@ -211,7 +210,6 @@ $(BIN_PATH)/$(BIN_NAME): $(OBJECTS)
 $(BUILD_PATH)/%.o: $(SRC_PATH)/%.$(SRC_EXT)
 	@echo "Compiling: $< -> $@"
 	@$(START_TIME)
-	@echo "$(CMD_PREFIX)$(CXX) $(CXXFLAGS) $(INCLUDES) -MP -MMD -c $< -o $@"
 	$(CMD_PREFIX)$(CXX) $(CXXFLAGS) $(INCLUDES) -MP -MMD -c $< -o $@
 	@echo -en "\t Compile time: "
 	@$(END_TIME)
